@@ -1,24 +1,18 @@
+setwd("../..")
+
+
 ### Loading data
 test_that("Test correct metadata is loaded", {
   # Dim
-  expect_equivalent(dim(load_metadata()), c(1277, 20))
+  expect_equal(dim(load_metadata()), c(1277, 20))
   # colnames
   expect_setequal(
-    colnames(mplibrary::load_metadata()),
+    colnames(load_metadata()),
     c("id", "sample_barcode", "LibID", "library_plate", "ext_conc", "lib_conc", "pool_ng", "stage", "project", "group", "donor", "batch_1", "batch_2", "batch_3", "fecal_donation_number", "fecal_batch_date", "pdai_score", "paired_reads", "mean_quality", "non_human_reads")
   )
 })
 
 metadata <- load_metadata()
-
-
-# test_that("Metaphlan3 loads correctly", {
-#   expect_equivalent(dim(load_metaphlan("species")), c(505, 444))
-#   expect_equivalent(dim(load_metaphlan()), c(186, 444))
-#   expect_equivalent(dim(load_metaphlan("species")), c(505, 444))
-# })
-
-# metaphlan <- load_metaphlan("species")
 
 
 
@@ -35,8 +29,8 @@ test_that("Test if isolateDonorAndPatientMetadata isolates metadata for both Pat
 
   DonorAndPatientMetadata <- isolateDonorAndPatientMetadata(metadata, metadata_with_donor_batches_used = patientMetadataWithDonorbatches, project_filter = "MP")
 
-  expect_equivalent(unique(DonorAndPatientMetadata$project), c("donor_batch", "MP"))
-  expect_equivalent(unique(DonorAndPatientMetadata$group), c("FMT", "placebo"))
+  expect_equal(unique(DonorAndPatientMetadata$project), c("donor_batch", "MP"))
+  expect_equal(unique(DonorAndPatientMetadata$group), c("FMT", "placebo"))
 })
 
 test_that("Test if createXaxis gives the correct Xaxis column values", {
@@ -49,7 +43,7 @@ test_that("Test if createXaxis gives the correct Xaxis column values", {
     createXaxis()
 
   # test
-  expect_equivalent(
+  expect_equal(
     unique(isolatedMetadatWithXaxis$x_axis),
     c(
       "Donor", "Pre", "Post", "treatment_5", "treatment_10", "treatment_15", "treatment_21", "followup_1m",
