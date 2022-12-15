@@ -10,8 +10,8 @@ library(tidyverse)
 #'
 #' @export
 #'
-#' @example
-#' metadata <- load_metadata()
+#' @example metadata <- load_metadata()
+#'
 load_metadata <- function() {
     metadata <- readr::read_delim("../data/metadata/selected_metadata.csv", delim = ";", show_col_types = FALSE)
     return(metadata)
@@ -27,8 +27,8 @@ load_metadata <- function() {
 #'
 #' @export
 #'
-#' @example
-#' metadata_MP <- isolateProjectMetadata(metadata, "MP")
+#' @example metadata_MP <- isolateProjectMetadata(metadata, "MP")
+#'
 isolateProjectMetadata <- function(metadata, project_filter = "MP") {
     stopifnot(project_filter %in% c("MP", "NP"))
     patientMetadataWithDonorbatches <- isolateDonorBatchesUsed(metadata, project_filter)
