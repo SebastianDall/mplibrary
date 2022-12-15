@@ -7,21 +7,68 @@ t_metaphlan <- transposeMetaphlan(metaphlan)
 
 metadata_MP <- isolateProjectMetadata(metadata, project_filter = "MP")
 
-test_that("Test that the beta-diversity function gives the correct output", {
-    metadata_with_beta <- beta_diversity_v1(metadata_MP, t_metaphlan, transform = T, stages = c("Pre", "Post"), seed = 1)
-    metadata_with_beta_ref <- beta_diversity_refactored(metadata_MP, t_metaphlan, transform = T, stages = c("Pre", "Post"), seed = 1)
+test_that("Test that createDistMatrix creates the correct datamatrix", {
+    beta_bray_transformed <- createBetaDistMatrix(t_metaphlan, "bray", TRUE)
+    beta_bray_transformed_manuel <- vegan::decostand(t_metaphlan, "hellinger") %>%
+        as.matrix() %>%
+        vegan::vegdist() %>%
+        as.matrix() %>%
+        as.data.frame()
 
-    expect_equal(metadata_with_beta$beta_diversity[1:3], c(0.974, 0.934, 0.968), tolerance = 0.001)
-    expect_equal(metadata_with_beta$beta_diversity[1:3], metadata_with_beta_ref$beta_diversity[1:3])
+    beta_bray_untransformed <- createBetaDistMatrix(t_metaphlan, "bray", FALSE)
+    beta_bray_untransformed_manuel <- vegan::vegdist(t_metaphlan) %>%
+        as.matrix() %>%
+        as.data.frame()
+
+    beta_sor_transformed <- createBetaDistMatrix(t_metaphlan, "sorensen", TRUE)
+    beta_sor_untransformed <- createBetaDistMatrix(t_metaphlan, "sorensen", FALSE)
+
+
+    expect_equal(beta_bray_untransformed, beta_bray_untransformed_manuel)
+    expect_equal(beta_bray_transformed, beta_bray_transformed_manuel)
+    expect_equal(beta_sor_transformed, beta_sor_untransformed)
+})
+
+test_that("test that addDonorIDtoBetaDistWMetadata performs correctly", {
+    beta_dist_matrix <- createBetaDistMatrix(t_metaphlan, "bray", TRUE)
+
+    beta_dist_l_with_projectmetadata <- beta_dist_matrix %>%
+        rownames_to_column("LibID") %>%
+        pivot_longer(-LibID, names_to = "comparison", values_to = "dissimilarity") %>%
+        left_join(metadata_MP) %>%
+        select(id, LibID, comparison, dissimilarity, project, group, -c(batch_1:batch_3), x_axis)
+
+    metadata_beta <- addDonorIdtoBetaDistWMetadata(beta_dist_l_with_projectmetadata, metadata_MP)
+
+
+    expect_equal(dim(metadata_beta), c(195364, 9))
+})
+
+# old function
+metadata_beta_old_real_donor <- beta_diversity_v1(metadata_MP, t_metaphlan, method = "bray", transform = TRUE) %>%
+    filter(comparison == "real_donor") %>%
+    arrange(LibID, donor_comparison)
+##
+
+test_that("test that createMetadataWBetadiversity creates metadata_beta", {
+    metadata_beta <- createMetadataWBetadiversity(metadata_MP, t_metaphlan, method = "bray", transform = TRUE)
+
+    metadata_beta_real_donor <- metadata_beta %>%
+        filter(paste0(LibID, comparison) %in% paste0(metadata_beta_old_real_donor$LibID, metadata_beta_old_real_donor$donor_comparison)) %>%
+        arrange(LibID, comparison)
+
+    expect_equal(all(c("id", "LibID", "comparison", "dissimilarity", "donor_id") %in% colnames(metadata_beta)), T)
+    expect_equal(metadata_beta_real_donor$dissimilarity, metadata_beta_old_real_donor$beta_diversity, tolerance = 10^-4)
 })
 
 
-test_that("Test that makeInputDataFrames gives 4 dataframes in a list", {
-    dflist <- makeInputDataframes(metadata_MP, t_metaphlan)
+metadata_beta <- createMetadataWBetadiversity(metadata_MP, t_metaphlan, "bray", TRUE)
 
-    expect_equal(length(dflist), 4)
-    expect_equal(dim(dflist[["metadata_patients"]]), c(763, 22))
-    expect_equal(dim(dflist[["metadata_donors"]]), c(55, 22))
-    expect_equal(dim(dflist[["t_metaphlan"]]), c(442, 505))
-    expect_equal(dim(dflist[["t_metaphlan_donors_summarised"]]), c(14, 506))
+test_that("compareFMT2ActualDonor gives the same results as old beta_diversity function", {
+    metadata_beta_FMT_actual <- compareFMT2ActualDonor(metadata_MP, metadata_beta) %>%
+        filter(paste0(LibID, comparison) %in% paste0(metadata_beta_old_real_donor$LibID, metadata_beta_old_real_donor$donor_comparison)) %>%
+        arrange(LibID, comparison)
+
+    expect_equal(length(metadata_beta_FMT_actual$LibID), length(metadata_beta_old_real_donor$LibID))
+    expect_equal(metadata_beta_real_donor$dissimilarity, metadata_beta_old_real_donor$beta_diversity, tolerance = 10^-4)
 })
