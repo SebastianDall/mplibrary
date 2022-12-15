@@ -13,7 +13,7 @@ library(tidyverse)
 #' @example
 #' metadata <- load_metadata()
 load_metadata <- function() {
-    metadata <- read_delim("../data/metadata/selected_metadata.csv", delim = ";")
+    metadata <- readr::read_delim("../data/metadata/selected_metadata.csv", delim = ";", show_col_types = FALSE)
     return(metadata)
 }
 

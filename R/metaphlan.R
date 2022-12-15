@@ -11,7 +11,7 @@
 #' @example
 #' metaphlan <- load_metaphlan("species")
 load_metaphlan <- function(taxonomic_level = "genus") {
-    metaphlan <- read_delim(paste0("../data/metaphlan3/", "MetaPhlAn3_Subsample_5000000_", taxonomic_level, ".csv"), delim = "\t")
+    metaphlan <- readr::read_delim(paste0("../data/metaphlan3/", "MetaPhlAn3_Subsample_5000000_", taxonomic_level, ".csv"), delim = "\t", show_col_types = FALSE)
     return(metaphlan)
 }
 
