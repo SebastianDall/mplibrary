@@ -70,5 +70,5 @@ test_that("compareFMT2ActualDonor gives the same results as old beta_diversity f
         arrange(LibID, comparison)
 
     expect_equal(length(metadata_beta_FMT_actual$LibID), length(metadata_beta_old_real_donor$LibID))
-    expect_equal(metadata_beta_real_donor$dissimilarity, metadata_beta_old_real_donor$beta_diversity, tolerance = 10^-4)
+    expect_equal(metadata_beta_FMT_actual$dissimilarity, metadata_beta_old_real_donor$beta_diversity, tolerance = 10^-4)
 })
