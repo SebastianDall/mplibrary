@@ -393,6 +393,25 @@ comparePlacebo2DonorNotReceived <- function(projectmetadata, metadata_beta) {
 }
 
 
+#' Bind comparisons
+#' #'
+#' A helper function to bind_rows of the compared dataframes 
+#'
+#'@param projectmetadata A df from `isolateProjectMetadata`
+#'@param metadata_beta A df from `createMetadataWBetadiversity`
+#'
+#'@export
+#'
+#'@example
+#'
+createANDcombineComparedOutputs <- function(projectmetadata, metadata_beta){
+    metadata_beta_sor_FMT_and_placebo <- bind_rows(
+        compareFMT2ActualDonor(projectmetadata, metadata_beta),
+        compareFMT2DonorNotReceived(projectmetadata, metadata_beta),
+        comparePlacebo2DonorNotReceived(projectmetadata, metadata_beta)
+    )
+}
+
 
 beta_method <- function(df, method) {
     if (method == "bray") {
@@ -443,27 +462,46 @@ hellinger_transform <- function(df, transform = transform, method = "hellinger")
 
 
 
-summariseBetaDiversityOutput <- function(beta_df, donor_id) {
-    metadata_beta_diversity_mean_donor <- beta_df %>%
-        left_join(donor_id) %>%
-        filter(!is.na(donor_comparison))
+# summariseBetaDiversityOutput <- function(beta_df, donor_id) {
+#     metadata_beta_diversity_mean_donor <- beta_df %>%
+#         left_join(donor_id) %>%
+#         filter(!is.na(donor_comparison))
 
-    summarise_real_donor <- metadata_beta_diversity_mean_donor %>%
-        filter(comparison == "real_donor") %>%
-        group_by(id, group, x_axis, comparison) %>%
-        summarise(beta_diversity = median(beta_diversity))
+#     summarise_real_donor <- metadata_beta_diversity_mean_donor %>%
+#         filter(comparison == "real_donor") %>%
+#         group_by(id, group, x_axis, comparison) %>%
+#         summarise(beta_diversity = median(beta_diversity))
 
-    summarise_random_donor <- metadata_beta_diversity_mean_donor %>%
-        filter(comparison != "real_donor") %>%
-        group_by(id, group, x_axis, comparison) %>%
-        summarise(beta_diversity = median(beta_diversity))
+#     summarise_random_donor <- metadata_beta_diversity_mean_donor %>%
+#         filter(comparison != "real_donor") %>%
+#         group_by(id, group, x_axis, comparison) %>%
+#         summarise(beta_diversity = median(beta_diversity))
 
 
-    metadata_beta_diversity_summarised <- bind_rows(summarise_real_donor, summarise_random_donor) %>%
-        mutate(comparison = if_else(comparison == "random" & group == "FMT", "Donors not received",
-            if_else(comparison == "random" & group == "placebo", "All Donors", "Actual Donors")
-        )) %>%
+#     metadata_beta_diversity_summarised <- bind_rows(summarise_real_donor, summarise_random_donor) %>%
+#         mutate(comparison = if_else(comparison == "random" & group == "FMT", "Donors not received",
+#             if_else(comparison == "random" & group == "placebo", "All Donors", "Actual Donors")
+#         )) %>%
+#         arrange(id)
+
+#     return(metadata_beta_diversity_summarised)
+# }
+
+#' Summarise betadiversity
+#' #'
+#' calculates the median dissimiliarity of each sample to donors received and not received.
+#'
+#' @param metadata_beta_compared A df created by one of the `compare...` functions
+#'
+#' @export
+#'
+#' @example
+#'
+summariseBetaDiversityOutput <- function(metadata_beta_compared) {
+    metadata_beta_summarised <- metadata_beta_compared %>%
+        group_by(id, x_axis, actual_donor, group) %>%
+        summarise(median_dissimilarity = median(dissimilarity)) %>%
         arrange(id)
 
-    return(metadata_beta_diversity_summarised)
+    return(metadata_beta_summarised)
 }
