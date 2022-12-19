@@ -2,9 +2,7 @@
 % Please edit documentation in R/betadiversity.R
 \name{createMetadataWBetadiversity}
 \alias{createMetadataWBetadiversity}
-\title{Betadiversity dissimilarity with metadata
-#'
-Function creates a distance matrix, transform the matrix to a dataframe and adds projectmetadata to the dataframe.}
+\title{Betadiversity dissimilarity with metadata}
 \usage{
 createMetadataWBetadiversity(
   projectmetadata,
@@ -23,7 +21,5 @@ createMetadataWBetadiversity(
 \item{transform}{Boolean. Specifies if metaphlan df should be hellinger-transformed before distance calculation}
 }
 \description{
-Betadiversity dissimilarity with metadata
-#'
 Function creates a distance matrix, transform the matrix to a dataframe and adds projectmetadata to the dataframe.
 }

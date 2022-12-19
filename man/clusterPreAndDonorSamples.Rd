@@ -2,9 +2,7 @@
 % Please edit documentation in R/heatmap_functions.R
 \name{clusterPreAndDonorSamples}
 \alias{clusterPreAndDonorSamples}
-\title{Cluster samples for heatmap
-#'
-calculates clusters based on hellinger transformed bray-curtis distance with the ward.D2 algorithm.}
+\title{Cluster samples for heatmap}
 \usage{
 clusterPreAndDonorSamples(metadata_tax_hellinger, t_metaphlan)
 }
@@ -14,7 +12,5 @@ clusterPreAndDonorSamples(metadata_tax_hellinger, t_metaphlan)
 \item{t_metaphlan}{A metaphlan df transposed}
 }
 \description{
-Cluster samples for heatmap
-#'
 calculates clusters based on hellinger transformed bray-curtis distance with the ward.D2 algorithm.
 }

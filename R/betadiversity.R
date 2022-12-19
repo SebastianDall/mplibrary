@@ -203,7 +203,7 @@ beta_diversity_v1 <- function(metadata, t_taxdata, transform = F, method = "bray
 ################################################
 
 #' Betadiversity dissimilarity with metadata
-#' #'
+#'
 #' Function creates a distance matrix, transform the matrix to a dataframe and adds projectmetadata to the dataframe.
 #'
 #' @param projectmetadata A metadata df that has been processed by `isolateProjectAndDonor`
@@ -232,7 +232,7 @@ createMetadataWBetadiversity <- function(projectmetadata, t_metaphlan, method = 
 
 
 #' createBetaDistMatrix
-#' #'
+#'
 #' creates beta dissimilarity matrix
 #'
 #' @param t_metaphlan A metaphlan df transposed
@@ -279,7 +279,7 @@ addDonorIdtoBetaDistWMetadata <- function(beta_distance_matrix_long, projectmeta
 ############################# ############################
 
 #' Get FMT-DONOR comparisons
-#' #'
+#'
 #' extracts the comparison between the FMT group and actual donors received.
 #'
 #' @param projectmetadata A df with project related metadata created by `isolateProjectMetadata`
@@ -301,7 +301,7 @@ compareFMT2ActualDonor <- function(projectmetadata, metadata_beta) {
 }
 
 #' Get FMT-DONOR_not_received comparisons
-#' #'
+#'
 #' extracts the comparison between the FMT group and donors not received.
 #'
 #' @param projectmetadata A df with project related metadata created by `isolateProjectMetadata`
@@ -337,7 +337,7 @@ compareFMT2DonorNotReceived <- function(projectmetadata, metadata_beta) {
 }
 
 #' Donor received
-#' #'
+#'
 #' Helper function: Adds the donorbatches the patient received during treatment to metadata_beta
 #'
 #' @param projectmetadata A df with project related metadata created by `isolateProjectMetadata`
@@ -365,7 +365,7 @@ createMetadataBetaWDonorReceived <- function(projectmetadata, metadata_beta) {
 
 ########## placebo #########
 #' Compare placebo group to donor group
-#' #'
+#'
 #' extracts the comparison between the placebo group and donors.
 #'
 #' @param projectmetadata A df with project related metadata created by `isolateProjectMetadata`
@@ -394,17 +394,17 @@ comparePlacebo2DonorNotReceived <- function(projectmetadata, metadata_beta) {
 
 
 #' Bind comparisons
-#' #'
-#' A helper function to bind_rows of the compared dataframes 
 #'
-#'@param projectmetadata A df from `isolateProjectMetadata`
-#'@param metadata_beta A df from `createMetadataWBetadiversity`
+#' A helper function to bind_rows of the compared dataframes
 #'
-#'@export
+#' @param projectmetadata A df from `isolateProjectMetadata`
+#' @param metadata_beta A df from `createMetadataWBetadiversity`
 #'
-#'@example
+#' @export
 #'
-createANDcombineComparedOutputs <- function(projectmetadata, metadata_beta){
+#' @example
+#'
+createANDcombineComparedOutputs <- function(projectmetadata, metadata_beta) {
     metadata_beta_sor_FMT_and_placebo <- bind_rows(
         compareFMT2ActualDonor(projectmetadata, metadata_beta),
         compareFMT2DonorNotReceived(projectmetadata, metadata_beta),

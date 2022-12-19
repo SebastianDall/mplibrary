@@ -2,9 +2,7 @@
 % Please edit documentation in R/metaphlan.R
 \name{transposeMetaphlan}
 \alias{transposeMetaphlan}
-\title{transpose metaphlan table
-#'
-transpose metaphlan table}
+\title{transpose metaphlan table}
 \usage{
 transposeMetaphlan(metaphlan)
 }
@@ -12,7 +10,5 @@ transposeMetaphlan(metaphlan)
 \item{metaphlan}{A metaphlan dataframe}
 }
 \description{
-transpose metaphlan table
-#'
 transpose metaphlan table
 }

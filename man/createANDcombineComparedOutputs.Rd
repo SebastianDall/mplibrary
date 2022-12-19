@@ -2,9 +2,7 @@
 % Please edit documentation in R/betadiversity.R
 \name{createANDcombineComparedOutputs}
 \alias{createANDcombineComparedOutputs}
-\title{Bind comparisons
-#'
-A helper function to bind_rows of the compared dataframes}
+\title{Bind comparisons}
 \usage{
 createANDcombineComparedOutputs(projectmetadata, metadata_beta)
 }
@@ -14,7 +12,5 @@ createANDcombineComparedOutputs(projectmetadata, metadata_beta)
 \item{metadata_beta}{A df from \code{createMetadataWBetadiversity}}
 }
 \description{
-Bind comparisons
-#'
 A helper function to bind_rows of the compared dataframes
 }

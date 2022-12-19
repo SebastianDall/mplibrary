@@ -2,9 +2,7 @@
 % Please edit documentation in R/betadiversity.R
 \name{createBetaDistMatrix}
 \alias{createBetaDistMatrix}
-\title{createBetaDistMatrix
-#'
-creates beta dissimilarity matrix}
+\title{createBetaDistMatrix}
 \usage{
 createBetaDistMatrix(t_metaphlan, method = "bray", transform = T)
 }
@@ -16,7 +14,5 @@ createBetaDistMatrix(t_metaphlan, method = "bray", transform = T)
 \item{transform}{Boolean. Should hellinger transformation be applied or not?}
 }
 \description{
-createBetaDistMatrix
-#'
 creates beta dissimilarity matrix
 }

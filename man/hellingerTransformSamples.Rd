@@ -2,9 +2,7 @@
 % Please edit documentation in R/heatmap_functions.R
 \name{hellingerTransformSamples}
 \alias{hellingerTransformSamples}
-\title{Hellinger transform metadata with taxonomic data
-#'
-Helper function in generating the y-axis for the heatmap. Each sample batch is hellinger transformed}
+\title{Hellinger transform metadata with taxonomic data}
 \usage{
 hellingerTransformSamples(projectmetadata_w_tax)
 }
@@ -12,7 +10,5 @@ hellingerTransformSamples(projectmetadata_w_tax)
 \item{projectmetadata_w_tax}{A df with metadata and taxonomic data.}
 }
 \description{
-Hellinger transform metadata with taxonomic data
-#'
 Helper function in generating the y-axis for the heatmap. Each sample batch is hellinger transformed
 }

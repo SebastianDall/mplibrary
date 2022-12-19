@@ -2,9 +2,7 @@
 % Please edit documentation in R/betadiversity.R
 \name{createMetadataBetaWDonorReceived}
 \alias{createMetadataBetaWDonorReceived}
-\title{Donor received
-#'
-Helper function: Adds the donorbatches the patient received during treatment to metadata_beta}
+\title{Donor received}
 \usage{
 createMetadataBetaWDonorReceived(projectmetadata, metadata_beta)
 }
@@ -14,7 +12,5 @@ createMetadataBetaWDonorReceived(projectmetadata, metadata_beta)
 \item{metadata_beta}{A df created by \code{createMetadataWBetadiversity}}
 }
 \description{
-Donor received
-#'
 Helper function: Adds the donorbatches the patient received during treatment to metadata_beta
 }

@@ -2,9 +2,7 @@
 % Please edit documentation in R/metadata.R
 \name{isolateProjectMetadata}
 \alias{isolateProjectMetadata}
-\title{Isolates metadata for project to be analyzed
-#'
-Functionen for isolating relevant metadata. Three projects can be used: MP or NP}
+\title{Isolates metadata for project to be analyzed}
 \usage{
 isolateProjectMetadata(metadata, project_filter = "MP")
 }
@@ -14,7 +12,5 @@ isolateProjectMetadata(metadata, project_filter = "MP")
 \item{project_filter}{A project}
 }
 \description{
-Isolates metadata for project to be analyzed
-#'
 Functionen for isolating relevant metadata. Three projects can be used: MP or NP
 }

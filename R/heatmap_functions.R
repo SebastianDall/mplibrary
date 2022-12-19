@@ -1,10 +1,7 @@
 
 
-
-
-
 #' Hellinger transform metadata with taxonomic data
-#' #'
+#'
 #' Helper function in generating the y-axis for the heatmap. Each sample batch is hellinger transformed
 #'
 #' @param projectmetadata_w_tax A df with metadata and taxonomic data.
@@ -27,7 +24,7 @@ hellingerTransformSamples <- function(projectmetadata_w_tax) {
 }
 
 #' Finding top genera
-#' #'
+#'
 #' finds the top genera based on weighted mean of hellinger transformed relative abundances.
 #'
 #' @param projectmetadata_w_tax_hellinger_transformed A df created by `hellingerTransformSamples`
@@ -59,7 +56,7 @@ calculateTopGenera <- function(projectmetadata_w_tax_hellinger_transformed, stag
 }
 
 #' Top genera ranked based on the Donor group
-#' #'
+#'
 #' Arrange the top genera based on the Donor group
 #'
 #' @param projectmetadata_w_tax_hellinger_transformed A df created by `hellingerTransformSamples`
@@ -83,7 +80,7 @@ arrangeTopGeneraInDonor <- function(projectmetadata_w_tax_hellinger_transformed,
 
 
 #' Cluster samples for heatmap
-#' #'
+#'
 #' calculates clusters based on hellinger transformed bray-curtis distance with the ward.D2 algorithm.
 #'
 #' @param metadata_tax_hellinger A df made by `hellingerTransformSamples`

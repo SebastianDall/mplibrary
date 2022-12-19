@@ -1,7 +1,7 @@
 
 
 #' Loads a metaphlan table
-#' #'
+#'
 #' Loads a metaphlan table filtered to a certain taxonomic level
 #'
 #' @param taxonomic_level A taxonomic level, which loads the corresponding metaphlan table
@@ -18,7 +18,7 @@ load_metaphlan <- function(taxonomic_level = "genus") {
 
 
 #' Calculate the species richness
-#' #'
+#'
 #' Calculate the species richness defined as number of species present in a sample. Filter_species will first filter all species with less than x relative abundance in at least one sample
 #'
 #' @param metaphlan A metaphlan dataframe
@@ -39,7 +39,7 @@ calculateSpeciesRichness <- function(metaphlan, filter_species = 0) {
 }
 
 #' transpose metaphlan table
-#' #'
+#'
 #' transpose metaphlan table
 #'
 #' @param metaphlan A metaphlan dataframe

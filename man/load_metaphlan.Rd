@@ -2,9 +2,7 @@
 % Please edit documentation in R/metaphlan.R
 \name{load_metaphlan}
 \alias{load_metaphlan}
-\title{Loads a metaphlan table
-#'
-Loads a metaphlan table filtered to a certain taxonomic level}
+\title{Loads a metaphlan table}
 \usage{
 load_metaphlan(taxonomic_level = "genus")
 }
@@ -12,7 +10,5 @@ load_metaphlan(taxonomic_level = "genus")
 \item{taxonomic_level}{A taxonomic level, which loads the corresponding metaphlan table}
 }
 \description{
-Loads a metaphlan table
-#'
 Loads a metaphlan table filtered to a certain taxonomic level
 }

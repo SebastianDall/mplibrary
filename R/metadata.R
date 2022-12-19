@@ -19,7 +19,7 @@ load_metadata <- function() {
 
 ################################
 #' Isolates metadata for project to be analyzed
-#' #'
+#'
 #' Functionen for isolating relevant metadata. Three projects can be used: MP or NP
 #'
 #' @param metadata A dataframe

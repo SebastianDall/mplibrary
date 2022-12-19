@@ -2,9 +2,7 @@
 % Please edit documentation in R/metaphlan.R
 \name{calculateSpeciesRichness}
 \alias{calculateSpeciesRichness}
-\title{Calculate the species richness
-#'
-Calculate the species richness defined as number of species present in a sample. Filter_species will first filter all species with less than x relative abundance in at least one sample}
+\title{Calculate the species richness}
 \usage{
 calculateSpeciesRichness(metaphlan, filter_species = 0)
 }
@@ -14,7 +12,5 @@ calculateSpeciesRichness(metaphlan, filter_species = 0)
 \item{filter_species}{A cutoff value in relative abundance.}
 }
 \description{
-Calculate the species richness
-#'
 Calculate the species richness defined as number of species present in a sample. Filter_species will first filter all species with less than x relative abundance in at least one sample
 }

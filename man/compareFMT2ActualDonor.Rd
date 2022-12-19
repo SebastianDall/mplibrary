@@ -2,9 +2,7 @@
 % Please edit documentation in R/betadiversity.R
 \name{compareFMT2ActualDonor}
 \alias{compareFMT2ActualDonor}
-\title{Get FMT-DONOR comparisons
-#'
-extracts the comparison between the FMT group and actual donors received.}
+\title{Get FMT-DONOR comparisons}
 \usage{
 compareFMT2ActualDonor(projectmetadata, metadata_beta)
 }
@@ -14,7 +12,5 @@ compareFMT2ActualDonor(projectmetadata, metadata_beta)
 \item{metadata_beta}{A df created by \code{createMetadataWBetadiversity}}
 }
 \description{
-Get FMT-DONOR comparisons
-#'
 extracts the comparison between the FMT group and actual donors received.
 }

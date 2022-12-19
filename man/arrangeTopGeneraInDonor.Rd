@@ -2,9 +2,7 @@
 % Please edit documentation in R/heatmap_functions.R
 \name{arrangeTopGeneraInDonor}
 \alias{arrangeTopGeneraInDonor}
-\title{Top genera ranked based on the Donor group
-#'
-Arrange the top genera based on the Donor group}
+\title{Top genera ranked based on the Donor group}
 \usage{
 arrangeTopGeneraInDonor(
   projectmetadata_w_tax_hellinger_transformed,
@@ -17,7 +15,5 @@ arrangeTopGeneraInDonor(
 \item{top_genera}{A df created by \code{calculateTopGenera}}
 }
 \description{
-Top genera ranked based on the Donor group
-#'
 Arrange the top genera based on the Donor group
 }

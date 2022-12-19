@@ -2,9 +2,7 @@
 % Please edit documentation in R/betadiversity.R
 \name{compareFMT2DonorNotReceived}
 \alias{compareFMT2DonorNotReceived}
-\title{Get FMT-DONOR_not_received comparisons
-#'
-extracts the comparison between the FMT group and donors not received.}
+\title{Get FMT-DONOR_not_received comparisons}
 \usage{
 compareFMT2DonorNotReceived(projectmetadata, metadata_beta)
 }
@@ -14,7 +12,5 @@ compareFMT2DonorNotReceived(projectmetadata, metadata_beta)
 \item{metadata_beta}{A df created by \code{createMetadataWBetadiversity}}
 }
 \description{
-Get FMT-DONOR_not_received comparisons
-#'
 extracts the comparison between the FMT group and donors not received.
 }

@@ -2,9 +2,7 @@
 % Please edit documentation in R/heatmap_functions.R
 \name{calculateTopGenera}
 \alias{calculateTopGenera}
-\title{Finding top genera
-#'
-finds the top genera based on weighted mean of hellinger transformed relative abundances.}
+\title{Finding top genera}
 \usage{
 calculateTopGenera(
   projectmetadata_w_tax_hellinger_transformed,
@@ -20,7 +18,5 @@ calculateTopGenera(
 \item{n_genera}{Top n genera.}
 }
 \description{
-Finding top genera
-#'
 finds the top genera based on weighted mean of hellinger transformed relative abundances.
 }

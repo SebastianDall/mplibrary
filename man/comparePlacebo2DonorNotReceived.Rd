@@ -2,9 +2,7 @@
 % Please edit documentation in R/betadiversity.R
 \name{comparePlacebo2DonorNotReceived}
 \alias{comparePlacebo2DonorNotReceived}
-\title{Compare placebo group to donor group
-#'
-extracts the comparison between the placebo group and donors.}
+\title{Compare placebo group to donor group}
 \usage{
 comparePlacebo2DonorNotReceived(projectmetadata, metadata_beta)
 }
@@ -14,7 +12,5 @@ comparePlacebo2DonorNotReceived(projectmetadata, metadata_beta)
 \item{metadata_beta}{A df created by \code{createMetadataWBetadiversity}}
 }
 \description{
-Compare placebo group to donor group
-#'
 extracts the comparison between the placebo group and donors.
 }
