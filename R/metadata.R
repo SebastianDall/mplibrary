@@ -13,8 +13,11 @@ library(tidyverse)
 #' @example metadata <- load_metadata()
 #'
 load_metadata <- function() {
-    metadata <- readr::read_delim("../data/metadata/selected_metadata.csv", delim = ";", show_col_types = FALSE)
-    return(metadata)
+    return(
+        read_delim("../data/metadata/metadata.csv", delim = ";", show_col_types = FALSE, col_types = list(batch_3 = col_double())) %>% 
+            filter(!is.na(sample_barcode)) %>% 
+            distinct(sample_barcode, .keep_all = TRUE)
+    )
 }
 
 ################################

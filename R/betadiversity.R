@@ -7,7 +7,7 @@ beta_diversity_v1 <- function(metadata, t_taxdata, transform = F, method = "bray
     set.seed(seed)
 
     t_metaphlan_tib <- t_taxdata %>%
-        rownames_to_column(var = "LibID")
+        rownames_to_column(var = "sample_barcode")
 
     metadata_patients <- metadata %>%
         filter(x_axis != "Donor") %>%
@@ -18,7 +18,7 @@ beta_diversity_v1 <- function(metadata, t_taxdata, transform = F, method = "bray
 
 
     t_metaphlan_donors <- t_metaphlan_tib %>%
-        left_join(select(metadata_donor, LibID, id), by = "LibID") %>%
+        left_join(select(metadata_donor, LibID, id), by = "sample_barcode") %>%
         relocate(id) %>%
         select(-LibID) %>%
         group_by(id) %>%
@@ -68,11 +68,11 @@ beta_diversity_v1 <- function(metadata, t_taxdata, transform = F, method = "bray
 
             excluded_donors <- metadata_donor %>%
                 filter(!id %in% donors$id) %>%
-                filter(LibID %in% t_metaphlan_tib$LibID) %>%
+                filter(sample_barcode %in% t_metaphlan_tib$sample_barcode) %>%
                 mutate(id_number = parse_number(id))
         } else {
             excluded_donors <- metadata_donor %>%
-                filter(LibID %in% t_metaphlan_tib$LibID) %>%
+                filter(sample_barcode %in% t_metaphlan_tib$sample_barcode) %>%
                 mutate(id_number = parse_number(id))
         }
 
@@ -80,8 +80,8 @@ beta_diversity_v1 <- function(metadata, t_taxdata, transform = F, method = "bray
 
 
         metaphlan_patient <- t_metaphlan_tib %>%
-            filter(LibID %in% patient_stages$LibID) %>%
-            column_to_rownames(var = "LibID")
+            filter(sample_barcode %in% patient_stages$sample_barcode) %>%
+            column_to_rownames(var = "sample_barcode")
 
         nstages <- length(rownames(metaphlan_patient))
 
@@ -147,22 +147,22 @@ beta_diversity_v1 <- function(metadata, t_taxdata, transform = F, method = "bray
 
                     metaphlan_missingDonor <- t_metaphlan_donors %>%
                         filter(id %in% missingDonorLib$id) %>%
-                        column_to_rownames("LibID")
+                        column_to_rownames("sample_barcode")
 
                     metaphlan_actualDonor <- t_metaphlan_tib %>%
                         filter(LibID %in% donors$LibID) %>%
-                        column_to_rownames("LibID")
+                        column_to_rownames("sample_barcode")
 
                     metaphlan_donor <- bind_rows(metaphlan_actualDonor, metaphlan_missingDonor)
                 } else {
                     metaphlan_donor <- t_metaphlan_tib %>%
-                        filter(LibID %in% donors$LibID) %>%
-                        column_to_rownames("LibID")
+                        filter(sample_barcode %in% donors$sample_barcode) %>%
+                        column_to_rownames("sample_barcode")
                 }
             } else {
                 metaphlan_donor <- t_metaphlan_tib %>%
-                    filter(LibID %in% donors$LibID) %>%
-                    column_to_rownames("LibID")
+                    filter(sample_barcode %in% donors$sample_barcode) %>%
+                    column_to_rownames("sample_barcode")
             }
 
 
@@ -181,7 +181,7 @@ beta_diversity_v1 <- function(metadata, t_taxdata, transform = F, method = "bray
                 as_tibble() %>%
                 filter(row_number() > nstages) %>%
                 select(1:(nstages + 1)) %>%
-                pivot_longer(-donor_comparison, names_to = "LibID", values_to = "beta_diversity") %>%
+                pivot_longer(-donor_comparison, names_to = "sample_barcode", values_to = "beta_diversity") %>%
                 mutate(comparison = "real_donor")
 
             beta_diversity <- bind_rows(beta_diversity, beta_tibble_donor)
@@ -193,7 +193,7 @@ beta_diversity_v1 <- function(metadata, t_taxdata, transform = F, method = "bray
         }
     }
 
-    metadata_beta_diversity <- left_join(metadata_patients, beta_diversity, by = "LibID")
+    metadata_beta_diversity <- left_join(metadata_patients, beta_diversity, by = "sample_barcode")
 
     return(metadata_beta_diversity)
 }
@@ -220,10 +220,10 @@ createMetadataWBetadiversity <- function(projectmetadata, t_metaphlan, method = 
     beta_dist_matrix <- createBetaDistMatrix(t_metaphlan, method, transform)
 
     beta_dist_l_with_projectmetadata <- beta_dist_matrix %>%
-        rownames_to_column("LibID") %>%
-        pivot_longer(-LibID, names_to = "comparison", values_to = "dissimilarity") %>%
+        rownames_to_column("sample_barcode") %>%
+        pivot_longer(-sample_barcode, names_to = "comparison", values_to = "dissimilarity") %>%
         left_join(projectmetadata) %>%
-        select(id, LibID, comparison, dissimilarity, project, group, -c(batch_1:batch_3), x_axis)
+        select(id, sample_barcode, comparison, dissimilarity, project, group, -c(batch_1:batch_3), x_axis)
 
     metadata_beta <- addDonorIdtoBetaDistWMetadata(beta_dist_l_with_projectmetadata, projectmetadata)
 
@@ -267,8 +267,8 @@ createBetaDistMatrix <- function(t_metaphlan, method = "bray", transform = T) {
 addDonorIdtoBetaDistWMetadata <- function(beta_distance_matrix_long, projectmetadata) {
     metadata_donors <- projectmetadata %>%
         filter(x_axis == "Donor") %>%
-        select(LibID, id, fecal_donation_number) %>%
-        rename(comparison = LibID, donor_id = id)
+        select(sample_barcode, id, fecal_donation_number) %>%
+        rename(comparison = sample_barcode, donor_id = id)
 
     metadata_beta <- left_join(beta_distance_matrix_long, metadata_donors)
 
@@ -317,7 +317,7 @@ compareFMT2DonorNotReceived <- function(projectmetadata, metadata_beta) {
     metadata_beta_random_donor_for_FMT <- metadata_beta_w_donor_received %>%
         separate(donor_batch, into = c("donor_id_received", "donor_batch_received"), sep = "_", remove = FALSE) %>%
         filter(donor_id_received != donor_id) %>%
-        distinct(LibID, comparison, .keep_all = TRUE) %>%
+        distinct(sample_barcode, comparison, .keep_all = TRUE) %>%
         select(-c(donor_batch, donor_id_received, donor_batch_received)) %>%
         mutate(actual_donor = "Donors not received") %>%
         arrange(id, donor_id, x_axis, fecal_donation_number)
@@ -378,8 +378,8 @@ createMetadataBetaWDonorReceived <- function(projectmetadata, metadata_beta) {
 comparePlacebo2DonorNotReceived <- function(projectmetadata, metadata_beta) {
     metadata_donors <- projectmetadata %>%
         filter(x_axis == "Donor") %>%
-        select(LibID, id, fecal_donation_number) %>%
-        rename(comparison = LibID, donor_id = id)
+        select(sample_barcode, id, fecal_donation_number) %>%
+        rename(comparison = sample_barcode, donor_id = id)
 
     distinct_random_donors_for_placebo <- metadata_donors %>%
         group_by(donor_id) %>%

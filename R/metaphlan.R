@@ -27,7 +27,7 @@ load_metaphlan <- function(taxonomic_level = "genus") {
 #' @export
 #'
 #' @examples
-filter_taxonomy <- function(metaphlan, taxonomy = "species", keep_unclassified = TRUE){
+filter_taxonomy <- function(metaphlan, taxonomy = "species", keep_unclassified = TRUE, remove_tax_names = TRUE){
     tax <- tibble(
         abbr_taxonomy = c("k", "p", "c", "o", "f", "g", "s", "t"), 
         full_taxonomy = c("kingdom", "phylum", "class", "order", "family", "genus", "species", "strain")
@@ -58,13 +58,13 @@ filter_taxonomy <- function(metaphlan, taxonomy = "species", keep_unclassified =
             )
     }
     
-    
-    return(
-        df %>% 
+    if(remove_tax_names){
+        df <- df %>% 
             mutate(
                 clade_name = str_remove(clade_name, paste0(".*",tax_lvl,"__"))
             )
-    )
+    }
+    return(df)
     
     
 }

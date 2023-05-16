@@ -93,11 +93,11 @@ arrangeTopGeneraInDonor <- function(projectmetadata_w_tax_hellinger_transformed,
 clusterPreAndDonorSamples <- function(metadata_tax_hellinger, t_metaphlan) {
     t_metaphlan_id <- metadata_tax_hellinger %>%
         filter(str_detect(sample_group, "Pre") | sample_group == "Donor") %>%
-        arrange(LibID) %>%
-        select(id, LibID, group, sample_group, x_axis) %>%
-        distinct(LibID, .keep_all = T) %>%
+        arrange(sample_barcode) %>%
+        select(id, sample_barcode, group, sample_group, x_axis) %>%
+        distinct(sample_barcode, .keep_all = T) %>%
         left_join(
-            rownames_to_column(t_metaphlan, "LibID")
+            rownames_to_column(t_metaphlan, "sample_barcode")
         )
 
     t_metaphlan_long_id_donor_avg <- t_metaphlan_id %>%
